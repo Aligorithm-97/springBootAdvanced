@@ -7,8 +7,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Employee {
-    private String    name;
-    private String    surName;
+    private String    firstName;
+    private String    lastName;
     private String    userName;
     private String    password;
     private Integer   weight;
