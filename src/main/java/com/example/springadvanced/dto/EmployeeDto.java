@@ -21,7 +21,6 @@ public class EmployeeDto {
     private String password;
     private Integer weight;
     private Integer height;
-    private List<String> hobby;
     @NotStartWith({"http","https"})
     private String department;
 

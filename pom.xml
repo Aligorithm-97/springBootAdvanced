@@ -1,137 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.17</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>springadvanced</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>springadvanced</name>
-	<description>Spring Boot Advanced</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.17</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>springadvanced</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springadvanced</name>
+    <description>Spring Boot Advanced</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
 
-			<groupId>org.springdoc</groupId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
 
-			<artifactId>springdoc-openapi-ui</artifactId>
+            <groupId>org.springdoc</groupId>
 
-			<version>1.7.0</version>
+            <artifactId>springdoc-openapi-ui</artifactId>
 
-		</dependency>
-		<dependency>
+            <version>1.7.0</version>
 
-			<groupId>org.mapstruct</groupId>
+        </dependency>
+        <dependency>
 
-			<artifactId>mapstruct</artifactId>
+            <groupId>org.mapstruct</groupId>
 
-			<version>1.5.5.Final</version>
+            <artifactId>mapstruct</artifactId>
 
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+            <version>1.5.5.Final</version>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<image>
-						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
-					</image>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
 
-			<groupId>org.apache.maven.plugins</groupId>
+            <groupId>com.h2database</groupId>
 
-			<artifactId>maven-compiler-plugin</artifactId>
+            <artifactId>h2</artifactId>
 
-			<version>3.8.1</version>
+            <scope>runtime</scope>
 
-			<configuration>
+        </dependency>
+    </dependencies>
 
-			<source>17</source> <!-- depending on your project -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
+                    </image>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
 
-			<target>17</target> <!-- depending on your project -->
+                <groupId>org.apache.maven.plugins</groupId>
 
-			<annotationProcessorPaths>
+                <artifactId>maven-compiler-plugin</artifactId>
 
-			<path>
+                <version>3.8.1</version>
 
-				<groupId>org.mapstruct</groupId>
+                <configuration>
 
-				<artifactId>mapstruct-processor</artifactId>
+                    <source>17</source> <!-- depending on your project -->
 
-				<version>1.5.5.Final</version>
+                    <target>17</target> <!-- depending on your project -->
 
-			</path><path>
+                    <annotationProcessorPaths>
 
-				<groupId>org.projectlombok</groupId>
+                        <path>
 
-				<artifactId>lombok</artifactId>
+                            <groupId>org.mapstruct</groupId>
 
-				<version>1.18.30</version>
+                            <artifactId>mapstruct-processor</artifactId>
 
-			</path>
+                            <version>1.5.5.Final</version>
 
-				<path>
+                        </path>
+                        <path>
 
-					<groupId>org.projectlombok</groupId>
+                            <groupId>org.projectlombok</groupId>
 
-					<artifactId>lombok-mapstruct-binding</artifactId>
+                            <artifactId>lombok</artifactId>
 
-					<version>0.2.0</version>
+                            <version>1.18.30</version>
 
-				</path>
+                        </path>
 
-				<!-- other annotation processors -->
+                        <path>
 
-			</annotationProcessorPaths>
+                            <groupId>org.projectlombok</groupId>
 
-			</configuration>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
 
-			</plugin>
-		</plugins>
-	</build>
+                            <version>0.2.0</version>
+
+                        </path>
+
+                        <!-- other annotation processors -->
+
+                    </annotationProcessorPaths>
+
+                </configuration>
+
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

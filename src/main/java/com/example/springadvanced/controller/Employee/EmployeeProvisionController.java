@@ -13,17 +13,16 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/employee/provision")
 @RequiredArgsConstructor
 public class EmployeeProvisionController {
-    private final EmployeeProvisionService service;
+    private final EmployeeProvisionService cs;
 
     @PostMapping("/add")
-    public Employee add(@Valid @RequestBody EmployeeDto employeeDto){
-        System.out.println(IEmployeeMapping.INSTANCE.toEmployee(employeeDto));
-        return IEmployeeMapping.INSTANCE.toEmployee(employeeDto);
+    public String add(@Valid @RequestBody EmployeeDto employeeDto) {
+        return cs.addCustomer(IEmployeeMapping.INSTANCE.toEmployee(employeeDto));
     }
 
-
-    @DeleteMapping("/remove/{eid}")
-    public void remove(@PathVariable Long eid){
-        System.out.println("Kullanıcı Silindi!"+eid);
+    @PostMapping("/suspend")
+    public String suspend(@RequestParam String cuid) {
+        cs.suspend(cuid);
+        return "OK";
     }
 }

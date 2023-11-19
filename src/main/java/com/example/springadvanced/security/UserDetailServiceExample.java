@@ -1,6 +1,8 @@
 package com.example.springadvanced.security;
 
 
+import com.example.springadvanced.dao.user.UserEntity;
+import com.example.springadvanced.dao.user.data.IUserEntityDao;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,30 +10,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
-
 @Service
 public class UserDetailServiceExample implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
-    private Map<String, UserDetails> users = new ConcurrentHashMap<>();
-
-    public UserDetailServiceExample(BCryptPasswordEncoder passwordEncoderParam) {
+    private final IUserEntityDao userEntityDao;
+    public UserDetailServiceExample(BCryptPasswordEncoder passwordEncoderParam,
+                               final IUserEntityDao userEntityDaoParam) {
         passwordEncoder = passwordEncoderParam;
-        users.put("aligorithm",
-                User.builder()
-                        .username("ali")
-                        .password(passwordEncoderParam.encode("123456"))
-                        .roles("ADMIN")
-                        .build());
-        users.put("ahmet",
-                User.builder()
-                        .username("ahmet")
-                        .password(passwordEncoderParam.encode("123456"))
-                        .roles("USER")
-                        .build());
+        userEntityDao   = userEntityDaoParam;
     }
+
     private UserDetails cloneUser(UserDetails userDetailsParam) {
         return User.builder()
                 .username(userDetailsParam.getUsername())
@@ -39,13 +27,22 @@ public class UserDetailServiceExample implements UserDetailsService {
                 .authorities(userDetailsParam.getAuthorities())
                 .build();
     }
+
+    private UserDetails convertToUserDetails(UserEntity userDetailsParam) {
+        return User.builder()
+                .username(userDetailsParam.getUsername())
+                .password(passwordEncoder.encode(userDetailsParam.getPassword()))
+                .roles(userDetailsParam.getUserRole().name())
+                .build();
+    }
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Logger logger;
-        UserDetails userDetailsLoc = users.get(username);
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        UserEntity  userDetailsLoc  = userEntityDao.findByUsername(username);
         if (userDetailsLoc == null) {
             throw new UsernameNotFoundException("Böyle bir user yok");
         }
-        return cloneUser(userDetailsLoc);
+
+        return convertToUserDetails(userDetailsLoc);
     }
 }

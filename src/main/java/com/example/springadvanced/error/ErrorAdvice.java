@@ -2,9 +2,14 @@ package com.example.springadvanced.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import javax.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ErrorAdvice {
@@ -14,6 +19,46 @@ public class ErrorAdvice {
         return ErrorObj.builder()
                 .withMessage(exp.getMessage())
                 .withErrorCode(1034)
+                .build();
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorObj errorHandler(AccessDeniedException exp) {
+        return ErrorObj.builder()
+                .withMessage("Access Denied!!!")
+                .withErrorCode(3333)
+                .build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorObj errorHandler(MethodArgumentNotValidException exp) {
+        return ErrorObj.builder()
+                .withMessage("Validation error")
+                .withErrorCode(1043)
+                .withSubErrors(exp.getAllErrors()
+                        .stream()
+                        .map(spe -> ErrorObj.builder()
+                                .withMessage("" + spe)
+                                .withErrorCode(1044)
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorObj errorHandler(ConstraintViolationException exp) {
+        return ErrorObj.builder()
+                .withMessage("Validation error")
+                .withErrorCode(1043)
+                .withSubErrors(exp.getConstraintViolations()
+                        .stream()
+                        .map(spe -> ErrorObj.builder()
+                                .withMessage("" + spe)
+                                .withErrorCode(1044)
+                                .build())
+                        .collect(Collectors.toList()))
                 .build();
     }
     @ExceptionHandler(Exception.class)
